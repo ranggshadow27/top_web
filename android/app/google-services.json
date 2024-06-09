@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "632462924764",
+    "project_id": "tgop-b4519",
+    "storage_bucket": "tgop-b4519.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632462924764:android:19b9367a784647aac78d19",
+        "android_client_info": {
+          "package_name": "com.teleglobal.top"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChndRwDygfTHl5Vu-7PDVGaxyAp9WzWL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
