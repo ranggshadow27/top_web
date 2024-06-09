@@ -19,7 +19,7 @@ void main() async {
         textTheme: GoogleFonts.interTextTheme(),
       ),
       title: "Application",
-      initialRoute: AppPages.INITIAL,
+      initialRoute: Routes.LOGIN,
       getPages: AppPages.routes,
     ),
   );

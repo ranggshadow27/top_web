@@ -69,7 +69,7 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
-        body: Row(
+        body: const Row(
           children: [
             NavigationView(),
           ],

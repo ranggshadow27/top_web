@@ -44,6 +44,7 @@ class AppPageController extends GetxController {
       'icon': FontAwesomeIcons.book,
       'itemIndex': 3,
     },
+
   ];
 
   switchPage(int index) {

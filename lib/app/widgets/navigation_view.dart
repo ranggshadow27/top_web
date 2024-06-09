@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:teleglobal_operate/app/modules/controllers/page_controller.dart';
@@ -13,14 +12,18 @@ class NavigationView extends GetView {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AppPageController());
+    RxDouble width = 0.0.obs;
 
-    return SizedBox(
-      width: Get.width,
+    return Obx(() {
+
+      width.value = MediaQuery.of(context).size.width;
+        return SizedBox(
+      width: width.value,
       child: Row(
         children: [
           Container(
             height: Get.height,
-            width: Get.width * .16,
+            width: 220,
             decoration: const BoxDecoration(
               color: AppColors.primaryBackground,
               border: Border(
@@ -64,5 +67,6 @@ class NavigationView extends GetView {
         ],
       ),
     );
+      },);
   }
 }
