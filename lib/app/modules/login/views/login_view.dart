@@ -92,7 +92,7 @@ class LoginView extends GetView<LoginController> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      fixedSize: Size(MediaQuery.of(context).size.width, 60)),
+                      fixedSize: Size(MediaQuery.of(context).size.width, 45)),
                   onPressed: () {},
                   child: Text(
                     "Login",
