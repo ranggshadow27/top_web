@@ -18,7 +18,7 @@ void main() async {
       theme: ThemeData(
         textTheme: GoogleFonts.interTextTheme(),
       ),
-      title: "Application",
+      title: "TOP App",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),

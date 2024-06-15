@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:teleglobal_operate/app/utils/themes/colors.dart';
 import 'package:teleglobal_operate/app/utils/themes/text_styles.dart';
+import 'package:teleglobal_operate/app/widgets/dialogs/forgot_password_dialog.dart';
+import 'package:teleglobal_operate/app/widgets/dialogs/signup_dialog.dart';
 import 'package:teleglobal_operate/app/widgets/top_textfield.dart';
 
 import '../controllers/login_controller.dart';
@@ -22,8 +24,7 @@ class LoginView extends GetView<LoginController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const FaIcon(FontAwesomeIcons.solidGem,
-                    color: AppColors.orangeAccent, size: 60),
+                const FaIcon(FontAwesomeIcons.solidGem, color: AppColors.orangeAccent, size: 60),
                 const SizedBox(height: 40),
                 Text(
                   "Teleglobal Operate",
@@ -40,8 +41,7 @@ class LoginView extends GetView<LoginController> {
           ),
           Container(
             color: AppColors.pureWhite,
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * .15),
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .15),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width * .5,
             child: Column(
@@ -75,7 +75,10 @@ class LoginView extends GetView<LoginController> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => const ForgotPasswordDialog(),
+                    ),
                     child: Text(
                       "Forgot your password?",
                       style: CustomTextStyle.semiBoldText.copyWith(
@@ -103,27 +106,37 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don’t have any account?",
-                      style: CustomTextStyle.mediumText.copyWith(
-                        color: AppColors.blackFont.withOpacity(.5),
-                        fontSize: 14,
+                Center(
+                  child: Wrap(
+                    runAlignment: WrapAlignment.start,
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        "Don’t have any account?",
+                        overflow: TextOverflow.ellipsis,
+                        style: CustomTextStyle.mediumText.copyWith(
+                          color: AppColors.blackFont.withOpacity(.5),
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                    TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Sign Up",
-                      style: CustomTextStyle.boldText.copyWith(
-                        color: AppColors.orangeAccent,
-                        fontSize: 14,
+                      TextButton(
+                        onPressed: () => showDialog(
+                          builder: (context) => const SignupDialog(),
+                          context: context,
+                        ),
+                        style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
+                        child: Text(
+                          " Sign Up",
+                          overflow: TextOverflow.ellipsis,
+                          style: CustomTextStyle.boldText.copyWith(
+                            color: AppColors.orangeAccent,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  ],
                 )
               ],
             ),
