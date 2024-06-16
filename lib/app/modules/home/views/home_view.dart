@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -42,13 +43,37 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               const Spacer(),
-              Text(
-                "Nico Robin",
-                style: CustomTextStyle.semiBoldText,
+              FutureBuilder<DocumentSnapshot>(
+                future: controller.getUserCredential(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: SizedBox(
+                        width: 12,
+                        height: 12,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    );
+                  }
+
+                  if (snapshot.hasData) {
+                    var userData = snapshot.data!.data() as Map<String, dynamic>;
+
+                    return Text(
+                      userData['username'],
+                      style: CustomTextStyle.semiBoldText,
+                    );
+                  }
+
+                  return Text(
+                    "Anonymous",
+                    style: CustomTextStyle.semiBoldText,
+                  );
+                },
               ),
               const SizedBox(width: 8),
               InkWell(
-                onTap: () {},
+                onTap: () => controller.logout(),
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   width: 40,

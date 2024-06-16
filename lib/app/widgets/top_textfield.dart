@@ -9,20 +9,22 @@ class TopTextfield extends StatelessWidget {
     required this.hintText,
     required this.iconData,
     required this.isPassword,
+    required this.textController,
     super.key,
   });
 
   final String hintText;
   final IconData iconData;
   final bool isPassword;
+  final TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: textController,
       autocorrect: false,
       maxLines: 1,
-      keyboardType:
-          isPassword ? TextInputType.text : TextInputType.emailAddress,
+      keyboardType: isPassword ? TextInputType.text : TextInputType.emailAddress,
       obscureText: isPassword,
       style: CustomTextStyle.mediumText.copyWith(fontSize: 14),
       decoration: InputDecoration(

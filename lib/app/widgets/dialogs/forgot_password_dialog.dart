@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:teleglobal_operate/app/modules/login/controllers/login_controller.dart';
 
 import '../../utils/themes/colors.dart';
 import '../../utils/themes/text_styles.dart';
@@ -10,6 +12,8 @@ class ForgotPasswordDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController(), permanent: true);
+
     return Dialog(
       child: Container(
         padding: EdgeInsets.all(28),
@@ -31,8 +35,9 @@ class ForgotPasswordDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * .02),
-            const TopTextfield(
+            TopTextfield(
               hintText: "Email",
+              textController: controller.emailTC,
               iconData: FontAwesomeIcons.solidEnvelope,
               isPassword: false,
             ),

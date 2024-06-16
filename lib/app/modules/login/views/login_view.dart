@@ -60,16 +60,18 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
                 const SizedBox(height: 38),
-                const TopTextfield(
+                TopTextfield(
                   hintText: "Email",
                   iconData: FontAwesomeIcons.solidEnvelope,
                   isPassword: false,
+                  textController: controller.emailTC,
                 ),
                 const SizedBox(height: 20),
-                const TopTextfield(
+                TopTextfield(
                   hintText: "Password",
                   iconData: FontAwesomeIcons.key,
                   isPassword: true,
+                  textController: controller.passwordTC,
                 ),
                 const SizedBox(height: 8),
                 Align(
@@ -96,7 +98,10 @@ class LoginView extends GetView<LoginController> {
                         borderRadius: BorderRadius.circular(14),
                       ),
                       fixedSize: Size(MediaQuery.of(context).size.width, 45)),
-                  onPressed: () {},
+                  onPressed: () async {
+                    debugPrint("LOGIN NIH");
+                    await controller.loginUser();
+                  },
                   child: Text(
                     "Login",
                     style: CustomTextStyle.semiBoldText.copyWith(
