@@ -24,6 +24,8 @@ class HomeController extends GetxController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  final int pageIndex = 1;
+
   Future<DocumentSnapshot> getUserCredential() {
     return firestore.collection('users').doc(auth.currentUser!.uid).get();
   }

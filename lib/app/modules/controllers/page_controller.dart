@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:teleglobal_operate/app/modules/home/views/home_content_view.dart';
 
 class AppPageController extends GetxController {
   //TODO: Implement PageControllerController
@@ -44,7 +45,6 @@ class AppPageController extends GetxController {
       'icon': FontAwesomeIcons.book,
       'itemIndex': 3,
     },
-
   ];
 
   switchPage(int index) {
@@ -56,7 +56,7 @@ class AppPageController extends GetxController {
   Widget switchPages() {
     switch (selectedPage) {
       case 0:
-        return Text("Menu ke $selectedPage");
+        return const HomeContentView();
       case 1:
         return Text("Menu ke $selectedPage");
       case 2:
