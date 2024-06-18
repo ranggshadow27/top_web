@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../routes/app_pages.dart';
 
@@ -38,6 +39,23 @@ class HomeController extends GetxController {
       debugPrint("Berhasil Logout");
     }
   }
+
+  List locations = [
+    {'lat': -6.411330, 'long': 107.149315}, // Cibarusah
+    {'lat': 0.484928, 'long': 115.102660}, // Long Bagun
+    {'lat': 0.113631, 'long': 115.830833}, // Long Pahangai
+    {'lat': -4.083333, 'long': 137.183334}, // Puncak Jaya
+    {'lat': -4.544537, 'long': 136.887018}, // Timika
+    {'lat': 4.155055, 'long': 117.112526}, // Mansalong
+    {'lat': 3.313204, 'long': 117.591316}, // Tarakan
+    {'lat': -8.670458, 'long': 115.212629}, // Denpasar
+    {'lat': -1.237930, 'long': 116.852852}, // Balikpapan
+    {'lat': -0.876163, 'long': 131.255828}, // Sorong
+
+    {'lat': -9.336666666666666, 'long': 124.86049999999997}, // Sorong
+    {'lat': -1.4032333333333336, 'long': 115.15176666666666}, // Sorong
+    {'lat': -3.3000000000000003, 'long': 114.68333333333332}, // Sorong
+  ];
 
   // @override
   // void onReady() {

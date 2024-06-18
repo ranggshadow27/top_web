@@ -31,19 +31,24 @@ class AppPageController extends GetxController {
       'itemIndex': 0,
     },
     {
+      'title': 'Provision',
+      'icon': FontAwesomeIcons.satelliteDish,
+      'itemIndex': 1,
+    },
+    {
       'title': 'Summary SLA',
       'icon': FontAwesomeIcons.paperclip,
-      'itemIndex': 1,
+      'itemIndex': 2,
     },
     {
       'title': 'Performance',
       'icon': FontAwesomeIcons.cloudscale,
-      'itemIndex': 2,
+      'itemIndex': 3,
     },
     {
       'title': 'Report',
       'icon': FontAwesomeIcons.book,
-      'itemIndex': 3,
+      'itemIndex': 4,
     },
   ];
 

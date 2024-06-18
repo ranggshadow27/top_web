@@ -23,7 +23,7 @@ class DashboardTile extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-        height: height * .2,
+        height: height * .16,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: AppColors.secondaryBackground,
