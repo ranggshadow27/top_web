@@ -9,8 +9,12 @@ import '../controllers/provision_content_controller.dart';
 
 class ProvisionContentView extends GetView<ProvisionContentController> {
   const ProvisionContentView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
     return Column(
       children: [
         Padding(
@@ -41,6 +45,25 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                 title: "Create New",
                 titleColor: AppColors.primaryBackground,
                 onTap: () {},
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: width,
+          height: 200,
+          decoration: BoxDecoration(
+              color: AppColors.blackFont.withOpacity(.03),
+              border: const Border.symmetric(
+                horizontal: BorderSide(
+                  color: AppColors.borderColor,
+                  width: 2,
+                ),
+              )),
+          child: Row(
+            children: [
+              SizedBox(
+                child: Text("Shadow"),
               ),
             ],
           ),
