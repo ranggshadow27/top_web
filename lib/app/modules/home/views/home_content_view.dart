@@ -20,6 +20,7 @@ class HomeContentView extends StatelessWidget {
     return Column(
       children: [
         Container(
+          padding: const EdgeInsets.all(24),
           width: width,
           height: height * .5,
           decoration: BoxDecoration(

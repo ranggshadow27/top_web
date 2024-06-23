@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:teleglobal_operate/app/modules/home/views/home_view.dart';
-import 'package:teleglobal_operate/app/modules/login/controllers/login_controller.dart';
-import 'package:teleglobal_operate/app/modules/login/views/login_view.dart';
 import 'package:teleglobal_operate/firebase_options.dart';
 
 import 'app/routes/app_pages.dart';
