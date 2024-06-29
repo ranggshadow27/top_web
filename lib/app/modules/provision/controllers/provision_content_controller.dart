@@ -3,21 +3,18 @@ import 'package:get/get.dart';
 class ProvisionContentController extends GetxController {
   //TODO: Implement ProvisionContentController
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  RxInt indexActive = 0.obs;
+
+  switchToGSData() {
+    indexActive.value = 1;
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  switchToRemoteData() {
+    indexActive.value = 0;
   }
-
-  void increment() => count.value++;
 }
