@@ -108,11 +108,8 @@ class HomeView extends GetView<HomeController> {
                 const NavigationView(),
                 Expanded(
                   child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: GetBuilder<AppPageController>(
-                        builder: (controller) => controller.switchPages(),
-                      ),
+                    child: GetBuilder<AppPageController>(
+                      builder: (controller) => controller.switchPages(),
                     ),
                   ),
                 ),
