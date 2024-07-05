@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:teleglobal_operate/app/utils/themes/colors.dart';
 import 'package:teleglobal_operate/app/utils/themes/text_styles.dart';
 import 'package:teleglobal_operate/app/widgets/custom_button.dart';
+import 'package:teleglobal_operate/app/widgets/dialogs/create_gs_dialog.dart';
+import 'package:teleglobal_operate/app/widgets/dialogs/create_remote_dialog.dart';
 import 'package:teleglobal_operate/app/widgets/gs_table_header.dart';
 import 'package:teleglobal_operate/app/widgets/gs_table_tile.dart';
 import 'package:teleglobal_operate/app/widgets/remote_table_header.dart';
@@ -60,7 +62,19 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                   color: AppColors.orangeAccent,
                   title: "Create New",
                   titleColor: AppColors.primaryBackground,
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        if (controller.indexActive.value == 1) {
+                          return CreateGSDialog(
+                            controller: controller,
+                          );
+                        }
+                        return const CreateRemoteDialog();
+                      },
+                    );
+                  },
                 ),
               ],
             ),

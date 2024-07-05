@@ -5,16 +5,16 @@ import '../utils/themes/colors.dart';
 import '../utils/themes/text_styles.dart';
 
 class TopTextfield extends StatelessWidget {
-  const TopTextfield({
+  TopTextfield({
     required this.hintText,
-    required this.iconData,
     required this.isPassword,
     required this.textController,
+    this.iconData,
     super.key,
   });
 
   final String hintText;
-  final IconData iconData;
+  IconData? iconData;
   final bool isPassword;
   final TextEditingController textController;
 
@@ -33,16 +33,18 @@ class TopTextfield extends StatelessWidget {
           fontSize: 14,
           color: AppColors.blackFont.withOpacity(.5),
         ),
-        prefixIcon: SizedBox(
-          width: 50,
-          child: Center(
-            child: FaIcon(
-              iconData,
-              color: AppColors.orangeAccent,
-              size: 18,
-            ),
-          ),
-        ),
+        prefixIcon: iconData != null
+            ? SizedBox(
+                width: 50,
+                child: Center(
+                  child: FaIcon(
+                    iconData,
+                    color: AppColors.orangeAccent,
+                    size: 18,
+                  ),
+                ),
+              )
+            : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,
