@@ -37,6 +37,7 @@ class GsTableHeader extends StatelessWidget {
             child: Text(
               "Total Remote",
               style: CustomTextStyle.boldText.copyWith(fontSize: 16),
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
@@ -51,6 +52,7 @@ class GsTableHeader extends StatelessWidget {
             child: Text(
               "Status",
               style: CustomTextStyle.boldText.copyWith(fontSize: 16),
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(

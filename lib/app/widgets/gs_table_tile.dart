@@ -47,6 +47,7 @@ class GsTableTile extends StatelessWidget {
               total,
               style: CustomTextStyle.mediumText.copyWith(),
               overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(
@@ -63,6 +64,7 @@ class GsTableTile extends StatelessWidget {
               status,
               style: CustomTextStyle.mediumText.copyWith(),
               overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(

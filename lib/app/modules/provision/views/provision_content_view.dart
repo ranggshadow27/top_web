@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:teleglobal_operate/app/utils/date_format.dart';
 import 'package:teleglobal_operate/app/utils/themes/colors.dart';
 import 'package:teleglobal_operate/app/utils/themes/text_styles.dart';
 import 'package:teleglobal_operate/app/widgets/custom_button.dart';
@@ -71,7 +73,9 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                             controller: controller,
                           );
                         }
-                        return const CreateRemoteDialog();
+                        return CreateRemoteDialog(
+                          controller: controller,
+                        );
                       },
                     );
                   },
@@ -96,26 +100,52 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                 controller.indexActive.value == 0
                     ? const RemoteTableHeader()
                     : const GsTableHeader(),
-                Column(
-                  children: List.generate(
-                    10,
-                    (index) => controller.indexActive.value == 0
-                        ? const RemoteTableTile(
-                            name: "SMP Negeri 1 Long Bagun",
-                            gs: "IPT",
-                            lat: "-1.4032333333333336",
-                            long: "115.15176666666666",
-                            status: "Active",
-                            created: "30 December 2024 15:14",
+                FutureBuilder(
+                  future: controller.indexActive.value == 0
+                      ? controller.getQueryRemoteData()
+                      : controller.getQueryGSData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError || !snapshot.hasData) {
+                      return const Text("Something went wrong");
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+
+                    List<DocumentSnapshot> data = snapshot.data!.docs;
+
+                    return controller.indexActive.value == 0
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) => RemoteTableTile(
+                              name: data[index]['remoteName'],
+                              gs: data[index]['gsVendor'],
+                              lat: data[index]['lat'],
+                              long: data[index]['long'],
+                              status: "Active",
+                              created: CustomDateFormat.formatTodMMYYYhhmm(
+                                data[index]['createdAt'],
+                              ),
+                            ),
                           )
-                        : const GsTableTile(
-                            name: "PT. Pasifik Satelit Nusantara",
-                            total: "134",
-                            status: "Active",
-                            created: "30 September 2024 15:14",
-                          ),
-                  ),
-                )
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) => GsTableTile(
+                              name: data[index]['gsName'],
+                              total: data[index]['totalRemote'].toString(),
+                              status: "Active",
+                              created: CustomDateFormat.formatToDDMMYYYhhmm(
+                                data[index]['createdAt'],
+                              ),
+                            ),
+                          );
+                  },
+                ),
               ],
             ),
           )
