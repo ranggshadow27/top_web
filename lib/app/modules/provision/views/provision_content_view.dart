@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
 import 'package:teleglobal_operate/app/utils/date_format.dart';
 import 'package:teleglobal_operate/app/utils/themes/colors.dart';
 import 'package:teleglobal_operate/app/utils/themes/text_styles.dart';
@@ -29,7 +28,7 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
     var height = MediaQuery.of(context).size.height;
 
     return Obx(() {
-      return Column(
+      return ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(25),
@@ -84,16 +83,8 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
             ),
           ),
           Container(
-            width: width,
-            height: height * .8,
             decoration: const BoxDecoration(
-              color: AppColors.secondaryBackground,
-              border: Border.symmetric(
-                horizontal: BorderSide(
-                  color: AppColors.borderColor,
-                  width: 2,
-                ),
-              ),
+              color: AppColors.primaryBackground,
             ),
             child: Column(
               children: [

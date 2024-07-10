@@ -12,8 +12,8 @@ class GsTableHeader extends StatelessWidget {
 
     return Container(
       width: width,
-      height: 60,
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      height: 45,
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       decoration: BoxDecoration(
           color: AppColors.blackFont.withOpacity(.03),
           border: const BorderDirectional(
