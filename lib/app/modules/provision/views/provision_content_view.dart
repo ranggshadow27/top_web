@@ -24,8 +24,8 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
       () => ProvisionContentController(),
     );
 
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    // var width = MediaQuery.of(context).size.width;
+    // var height = MediaQuery.of(context).size.height;
 
     return Obx(() {
       return ListView(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:teleglobal_operate/app/modules/home/controllers/home_controller.dart';
 import 'package:teleglobal_operate/app/utils/themes/colors.dart';
+import 'package:teleglobal_operate/app/utils/themes/text_styles.dart';
 import 'package:teleglobal_operate/app/widgets/dashboard_tile.dart';
 
 class HomeContentView extends StatelessWidget {
@@ -39,42 +39,51 @@ class HomeContentView extends StatelessWidget {
             child: Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
-                child: FlutterMap(
-                  options: const MapOptions(
-                    initialZoom: 5.1,
-                    maxZoom: 8,
-                    initialCenter: LatLng(-2.8, 116.2),
-                  ),
-                  children: [
-                    TileLayer(
-                      urlTemplate:
-                          'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-                      additionalOptions: const {
-                        'accessToken':
-                            'pk.eyJ1IjoiaGFudHVqaWlpaSIsImEiOiJjbHhrajlmd3AwMjNwMmlwa2x3MHE3cjJ0In0.9uql1E-11WhFIs0JwBje2g',
-                        'id': 'mapbox/light-v11',
-                      },
+                child: Obx(
+                  () => FlutterMap(
+                    options: const MapOptions(
+                      initialZoom: 5.1,
+                      maxZoom: 8,
+                      initialCenter: LatLng(-2.8, 116.2),
                     ),
-                    MarkerLayer(
-                      markers: controller.locations.map(
-                        (location) {
-                          return Marker(
-                            width: 20.0,
-                            height: 20.0,
-                            point: LatLng(location['lat'], location['long']),
-                            child: InkWell(
-                              onTap: () => debugPrint("Ini diklik"),
-                              child: const Icon(
-                                Icons.location_on,
-                                color: AppColors.orangeAccent,
-                                size: 20.0,
-                              ),
-                            ),
-                          );
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
+                        additionalOptions: const {
+                          'accessToken':
+                              'pk.eyJ1IjoiaGFudHVqaWlpaSIsImEiOiJjbHhrajlmd3AwMjNwMmlwa2x3MHE3cjJ0In0.9uql1E-11WhFIs0JwBje2g',
+                          'id': 'mapbox/light-v11',
                         },
-                      ).toList(),
-                    ),
-                  ],
+                      ),
+                      MarkerLayer(
+                        markers: controller.locations.map(
+                          (location) {
+                            return Marker(
+                              width: 20.0,
+                              height: 20.0,
+                              point: LatLng(location['lat'], location['long']),
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => SiteDetailsDialog(
+                                      location: location,
+                                    ),
+                                  );
+                                },
+                                child: const Icon(
+                                  Icons.location_on,
+                                  color: AppColors.orangeAccent,
+                                  size: 20.0,
+                                ),
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -119,6 +128,43 @@ class HomeContentView extends StatelessWidget {
               ),
             ],
           )
+        ],
+      ),
+    );
+  }
+}
+
+class SiteDetailsDialog extends StatelessWidget {
+  const SiteDetailsDialog({
+    super.key,
+    required this.location,
+  });
+
+  final Map<String, dynamic> location;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      title: const Center(child: Text("Site Details")),
+      titleTextStyle: CustomTextStyle.semiBoldText.copyWith(
+        fontSize: 20.0,
+      ),
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Name : ${location['name']}",
+          ),
+          Text(
+            "Latitude : ${location['lat']}",
+          ),
+          Text(
+            "Longitude : ${location['long']}",
+          ),
         ],
       ),
     );

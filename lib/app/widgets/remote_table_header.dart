@@ -16,13 +16,11 @@ class RemoteTableHeader extends StatelessWidget {
       height: 45,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       decoration: BoxDecoration(
-          color: AppColors.blackFont.withOpacity(.03),
-          border: const BorderDirectional(
-            bottom: BorderSide(
-              color: AppColors.borderColor,
-              width: 2,
-            ),
-          )),
+        color: AppColors.blackFont.withOpacity(.03),
+        border: const BorderDirectional(
+          bottom: BorderSide(color: AppColors.borderColor, width: 2),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
