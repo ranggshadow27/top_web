@@ -45,7 +45,9 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                   color: controller.indexActive.value == 0
                       ? AppColors.orangeAccent
                       : AppColors.pureWhite,
-                  titleColor: controller.indexActive.value == 0 ? AppColors.pureWhite : null,
+                  titleColor: controller.indexActive.value == 0
+                      ? AppColors.pureWhite
+                      : null,
                   title: "Remote",
                   onTap: () => controller.switchToRemoteData(),
                 ),
@@ -54,7 +56,9 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                   color: controller.indexActive.value == 1
                       ? AppColors.orangeAccent
                       : AppColors.pureWhite,
-                  titleColor: controller.indexActive.value == 1 ? AppColors.pureWhite : null,
+                  titleColor: controller.indexActive.value == 1
+                      ? AppColors.pureWhite
+                      : null,
                   title: "Vendor GS",
                   onTap: () => controller.switchToGSData(),
                 ),
@@ -91,51 +95,53 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                 controller.indexActive.value == 0
                     ? const RemoteTableHeader()
                     : const GsTableHeader(),
-                FutureBuilder(
-                  future: controller.indexActive.value == 0
-                      ? controller.getQueryRemoteData()
-                      : controller.getQueryGSData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError || !snapshot.hasData) {
-                      return const Text("Something went wrong");
-                    }
+                GetBuilder<ProvisionContentController>(
+                  builder: (controller) => FutureBuilder(
+                    future: controller.indexActive.value == 0
+                        ? controller.getQueryRemoteData()
+                        : controller.getQueryGSData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError || !snapshot.hasData) {
+                        return const Text("Something went wrong");
+                      }
 
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }
 
-                    List<DocumentSnapshot> data = snapshot.data!.docs;
+                      List<DocumentSnapshot> data = snapshot.data!.docs;
 
-                    return controller.indexActive.value == 0
-                        ? ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) => RemoteTableTile(
-                              name: data[index]['remoteName'],
-                              gs: data[index]['gsVendor'],
-                              lat: data[index]['lat'],
-                              long: data[index]['long'],
-                              status: "Active",
-                              created: CustomDateFormat.formatTodMMYYYhhmm(
-                                data[index]['createdAt'],
+                      return controller.indexActive.value == 0
+                          ? ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) => RemoteTableTile(
+                                name: data[index]['remoteName'],
+                                gs: data[index]['gsVendor'],
+                                lat: data[index]['lat'],
+                                long: data[index]['long'],
+                                status: "Active",
+                                created: CustomDateFormat.formatTodMMYYYhhmm(
+                                  data[index]['createdAt'],
+                                ),
                               ),
-                            ),
-                          )
-                        : ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) => GsTableTile(
-                              name: data[index]['gsName'],
-                              total: data[index]['totalRemote'].toString(),
-                              status: "Active",
-                              created: CustomDateFormat.formatToDDMMYYYhhmm(
-                                data[index]['createdAt'],
+                            )
+                          : ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) => GsTableTile(
+                                name: data[index]['gsName'],
+                                total: data[index]['totalRemote'].toString(),
+                                status: "Active",
+                                created: CustomDateFormat.formatToDDMMYYYhhmm(
+                                  data[index]['createdAt'],
+                                ),
                               ),
-                            ),
-                          );
-                  },
+                            );
+                    },
+                  ),
                 ),
               ],
             ),

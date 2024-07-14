@@ -28,7 +28,8 @@ class ProvisionContentController extends GetxController {
   }
 
   Future<List<String>> getGSData() async {
-    QuerySnapshot data = await firestore.collection('gs_data').orderBy('createdAt').get();
+    QuerySnapshot data =
+        await firestore.collection('gs_data').orderBy('createdAt').get();
 
     return data.docs.map((doc) => doc['gsName'] as String).toList();
   }
@@ -71,13 +72,17 @@ class ProvisionContentController extends GetxController {
     } finally {
       gsTC.clear();
 
+      update();
+
       Get.back();
     }
   }
 
   addRemote() async {
     try {
-      if (latTC.text.isNotEmpty && newRemoteTC.text.isNotEmpty && longTC.text.isNotEmpty) {
+      if (latTC.text.isNotEmpty &&
+          newRemoteTC.text.isNotEmpty &&
+          longTC.text.isNotEmpty) {
         String gsAlias = "";
         debugPrint("INI DATA $gsAlias");
         debugPrint("INI DATA ${selectedGS.value}");
@@ -91,15 +96,18 @@ class ProvisionContentController extends GetxController {
 
         debugPrint("INI DATA $gsAlias");
 
-        var getTotalRemote = await firestore.collection('gs_data').doc(selectedGS.value).get();
+        var getTotalRemote =
+            await firestore.collection('gs_data').doc(selectedGS.value).get();
         int totalRemote = getTotalRemote.data()!['totalRemote'];
 
         await firestore.collection('gs_data').doc(selectedGS.value).update({
           'totalRemote': totalRemote += 1,
         });
 
+        String formatedRemoteName = newRemoteTC.text.toUpperCase();
+
         await firestore.collection('remote_data').doc(newRemoteTC.text).set({
-          'remoteName': newRemoteTC.text,
+          'remoteName': formatedRemoteName,
           'gsVendor': gsAlias,
           'lat': latTC.text,
           'long': longTC.text,
@@ -115,6 +123,8 @@ class ProvisionContentController extends GetxController {
       latTC.clear();
       longTC.clear();
       newRemoteTC.clear();
+
+      update();
 
       Get.back();
     }

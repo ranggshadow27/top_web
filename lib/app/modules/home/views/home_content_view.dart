@@ -165,6 +165,9 @@ class SiteDetailsDialog extends StatelessWidget {
           Text(
             "Longitude : ${location['long']}",
           ),
+          Text(
+            "Vendor GS : ${location['gs']}",
+          ),
         ],
       ),
     );

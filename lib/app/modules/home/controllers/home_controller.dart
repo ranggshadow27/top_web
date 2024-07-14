@@ -56,14 +56,16 @@ class HomeController extends GetxController {
   ].obs;
 
   Future<List> getRemoteData() async {
-    var query = await firestore.collection('remote_data').orderBy('createdAt').get();
+    var query =
+        await firestore.collection('remote_data').orderBy('createdAt').get();
 
     return query.docs
         .map(
           (doc) => {
             'lat': double.parse(doc['lat']),
             'long': double.parse(doc['long']),
-            'name': doc['remoteName']
+            'name': doc['remoteName'],
+            'gs': doc['gsVendor'],
           },
         )
         .toList();
