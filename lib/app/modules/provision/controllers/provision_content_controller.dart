@@ -90,7 +90,7 @@ class ProvisionContentController extends GetxController {
 
         List<String> gsSplit = selectedGS.value.split(" ");
 
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < gsSplit.length; i++) {
           gsAlias += gsSplit[i][0];
         }
 
