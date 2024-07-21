@@ -76,11 +76,14 @@ class SlaController extends GetxController {
 
     debugPrint("$data");
 
-    for (var i = 1; i < vendorData.length + 1; i++) {
+    for (var vendorIndex = 1;
+        vendorIndex < vendorData.length + 1;
+        vendorIndex++) {
       // debugPrint("INI DATA 2 NYA : ${data[i]}");
 
-      for (var z = 1; z < now; z++) {
-        data[i]['data'][z] = '${randomizeDouble()} %';
+      for (var valueIndex = 1; valueIndex < now; valueIndex++) {
+        data[vendorIndex]['data'][valueIndex] =
+            '${randomizeDouble(valueIndex, vendorIndex)} %';
         // debugPrint("INDEX ke $z DATANYA : ${data[i]['data'][z]}");
       }
     }
@@ -89,8 +92,18 @@ class SlaController extends GetxController {
   }
 }
 
-double randomizeDouble() {
-  double num = 88 + Random().nextDouble() * (100.0 - 88.0);
+double randomizeDouble(int valueIndex, vendorIndex) {
+  double num = 0;
+
+  if (valueIndex == 4 && vendorIndex == 4) {
+    num = 85 + Random().nextDouble() * (95.0 - 85.0);
+  } else if (valueIndex == 3 && vendorIndex == 5) {
+    num = 85 + Random().nextDouble() * (95.0 - 85.0);
+  } else if (valueIndex == 2 && vendorIndex == 6) {
+    num = 85 + Random().nextDouble() * (95.0 - 85.0);
+  } else {
+    num = 98 + Random().nextDouble() * (100.0 - 98.0);
+  }
 
   return double.parse(num.toStringAsFixed(1));
 }
