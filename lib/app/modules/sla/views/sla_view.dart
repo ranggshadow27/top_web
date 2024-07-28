@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:teleglobal_operate/app/utils/themes/colors.dart';
+import 'package:teleglobal_operate/app/widgets/sla_container.dart';
 
 import '../../../utils/themes/text_styles.dart';
 import '../controllers/sla_controller.dart';
@@ -17,7 +18,17 @@ class SlaView extends GetView<SlaController> {
 
     return ListView(
       children: [
-        const SizedBox(height: 200),
+        const SizedBox(height: 25),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Text(
+            "Summary SLA",
+            style: CustomTextStyle.boldText.copyWith(
+              fontSize: 20,
+            ),
+          ),
+        ),
+        const SizedBox(height: 25),
         Expanded(
           child: GetBuilder<SlaController>(
             builder: (c) => Table(
@@ -26,32 +37,6 @@ class SlaView extends GetView<SlaController> {
                 0: FlexColumnWidth(3),
               },
               children: [
-                TableRow(
-                  decoration: const BoxDecoration(
-                    color: AppColors.primaryBackground,
-                    border: Border(
-                      bottom:
-                          BorderSide(color: AppColors.borderColor, width: 2),
-                    ),
-                  ),
-                  children: [
-                    ...List.generate(
-                      c.data[0]['data'].length,
-                      (cellIndex) => TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 10,
-                          ),
-                          child: Text(
-                            "TEST",
-                            style: CustomTextStyle.mediumText,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 ...List.generate(
                   c.data.length,
                   (index) {
@@ -60,9 +45,12 @@ class SlaView extends GetView<SlaController> {
                         color: c.data[index]['isHeader']
                             ? AppColors.blackFont.withOpacity(.03)
                             : AppColors.primaryBackground,
-                        border: const Border(
-                          bottom: BorderSide(
+                        border: Border(
+                          bottom: const BorderSide(
                               color: AppColors.borderColor, width: 2),
+                          top: BorderSide(
+                              color: AppColors.borderColor,
+                              width: c.data[index]['isHeader'] ? 2 : 0),
                         ),
                       ),
                       children: [
@@ -88,10 +76,53 @@ class SlaView extends GetView<SlaController> {
                     );
                   },
                 ),
+                TableRow(
+                  decoration: const BoxDecoration(
+                    color: AppColors.primaryBackground,
+                    border: Border(
+                      bottom:
+                          BorderSide(color: AppColors.borderColor, width: 2),
+                    ),
+                  ),
+                  children: [
+                    ...List.generate(
+                      c.data[0]['data'].length,
+                      (cellIndex) => TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                            vertical: 10,
+                          ),
+                          child: Text(
+                            controller.grandTotalData[cellIndex],
+                            style: CustomTextStyle.mediumText,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
-        )
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: GetBuilder<SlaController>(builder: (c) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SlaContainer(description: "Daily", value: "${c.slaDaily}"),
+                  SlaContainer(
+                      description: "Monthly", value: "${c.slaMonthly}"),
+                  SlaContainer(
+                      description: "Quarterly", value: "${c.slaQuarterly}"),
+                ],
+              );
+            }),
+          ),
+        ),
       ],
     );
   }
