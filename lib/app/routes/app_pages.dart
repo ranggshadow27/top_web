@@ -6,6 +6,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/provision/bindings/provision_content_binding.dart';
 import '../modules/provision/views/provision_content_view.dart';
+import '../modules/report/bindings/report_binding.dart';
+import '../modules/report/views/report_view.dart';
 import '../modules/sla/bindings/sla_binding.dart';
 import '../modules/sla/views/sla_view.dart';
 
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.SLA,
       page: () => const SlaView(),
       binding: SlaBinding(),
+    ),
+    GetPage(
+      name: _Paths.REPORT,
+      page: () => const ReportView(),
+      binding: ReportBinding(),
     ),
   ];
 }
