@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SlaController extends GetxController {
   //TODO: Implement SlaController
@@ -11,7 +13,15 @@ class SlaController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getVendorData();
+
+    data = await getSlaData();
+    grandTotalData = await getTotalSlaData();
+
+    if (data.length == 1) {
+      debugPrint("Jalanin GetVendorData");
+
+      await getVendorData();
+    }
 
     slaDaily = randomizeDouble(0, 0);
     slaQuarterly = getSlaQuarterly();
@@ -35,6 +45,7 @@ class SlaController extends GetxController {
   // }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final now = int.parse(DateFormat('M').format(DateTime.now())) + 1;
 
   double slaDaily = 0.0;
   double slaMonthly = 0.0;
@@ -43,9 +54,7 @@ class SlaController extends GetxController {
   double initialTotal = 0.0;
   double initialSLATotal = 0.0;
 
-  final now = int.parse(DateFormat('M').format(DateTime.now())) + 1;
-
-  final List<Map<String, dynamic>> data = [
+  List<dynamic> data = [
     {
       'data': [
         'Vendor',
@@ -67,7 +76,7 @@ class SlaController extends GetxController {
     },
   ];
 
-  final List<String> grandTotalData = [
+  List<String> grandTotalData = [
     'Grand Total SLA',
     '-',
     '-',
@@ -84,7 +93,7 @@ class SlaController extends GetxController {
     '-',
   ];
 
-  Future<List<Map<String, dynamic>>> getVendorData() async {
+  Future<List<dynamic>> getVendorData() async {
     QuerySnapshot query =
         await firestore.collection('gs_data').orderBy('createdAt').get();
 
@@ -149,11 +158,60 @@ class SlaController extends GetxController {
 
         initialSLATotal = 0.0;
       }
+
+      await saveSlaData();
     } catch (e) {
       debugPrint("EROR CUY $e");
     }
 
     return data;
+  }
+
+  Future saveSlaData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    await pref.setString('slaMonthly', jsonEncode(data));
+    debugPrint('Ini slaMonthly ${data.toString()}');
+
+    await pref.setStringList('slaTotal', grandTotalData);
+    debugPrint('Ini slaTotal ${grandTotalData.toString()}');
+  }
+
+  Future getSlaData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    var prefData = pref.getString('slaMonthly');
+
+    debugPrint("ini prefDatanya : $prefData");
+
+    if (prefData != null) {
+      List<dynamic> getData = jsonDecode(prefData);
+
+      return getData;
+    }
+
+    return data;
+  }
+
+  Future getTotalSlaData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    try {
+      var prefData = pref.getStringList('slaTotal');
+      debugPrint("ini prefTotalDatanya : $prefData");
+
+      if (prefData != null) {
+        List<dynamic> getData = prefData;
+
+        return getData;
+      }
+    } catch (e) {
+      debugPrint("ini ERORNYA : $e");
+    } finally {
+      debugPrint("Selesai");
+    }
+
+    return grandTotalData;
   }
 
   double getSlaMonthly() {
