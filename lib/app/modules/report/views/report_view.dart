@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teleglobal_operate/app/utils/themes/colors.dart';
 import 'package:teleglobal_operate/app/utils/themes/text_styles.dart';
+import 'package:teleglobal_operate/app/widgets/dialogs/create_report_criteria.dart';
 
+import '../../../widgets/custom_button.dart';
 import '../controllers/report_controller.dart';
 
 class ReportView extends GetView<ReportController> {
@@ -14,21 +16,41 @@ class ReportView extends GetView<ReportController> {
       () => ReportController(),
     );
 
-    return ListView(
-      children: [
-        const SizedBox(height: 25),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Text(
-            "Report Summary",
-            style: CustomTextStyle.boldText.copyWith(
-              fontSize: 20,
+    return GetBuilder<ReportController>(
+      builder: (c) => ListView(
+        children: [
+          const SizedBox(height: 25),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Row(
+              children: [
+                Text(
+                  "Report Summary",
+                  style: CustomTextStyle.boldText.copyWith(
+                    fontSize: 20,
+                  ),
+                ),
+                const Spacer(),
+                RButton(
+                  color: AppColors.orangeAccent,
+                  title: "Create New Criteria",
+                  titleColor: AppColors.primaryBackground,
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CreateReportCriteriaDialog(
+                          controller: controller,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-        ),
-        const SizedBox(height: 25),
-        GetBuilder<ReportController>(
-          builder: (c) => Table(
+          const SizedBox(height: 25),
+          Table(
             // border: TableBorder.all(color: Colors.black),
             columnWidths: const {
               2: FlexColumnWidth(3),
@@ -100,8 +122,8 @@ class ReportView extends GetView<ReportController> {
               ),
             ],
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }
