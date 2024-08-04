@@ -35,8 +35,8 @@ class ReportView extends GetView<ReportController> {
                   color: AppColors.orangeAccent,
                   title: "Create New Criteria",
                   titleColor: AppColors.primaryBackground,
-                  onTap: () {
-                    showDialog(
+                  onTap: () async {
+                    await showDialog(
                       context: context,
                       builder: (context) {
                         return CreateReportCriteriaDialog(

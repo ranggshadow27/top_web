@@ -1,21 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:teleglobal_operate/app/modules/report/views/report_view.dart';
-import 'package:teleglobal_operate/app/routes/app_pages.dart';
 
 class ReportController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
 
-    // await getReportCriteria();
+    await getReportCriteria();
   }
 
   void onReady() async {
     super.onReady();
 
-    await getReportCriteria();
+    // await getReportCriteria();
   }
 
   List<dynamic> data = [
@@ -41,18 +39,6 @@ class ReportController extends GetxController {
           'name': criteriaTC.text,
           'value': double.tryParse(valueTC.text),
           'type': criteriaType.value,
-        });
-
-        data.add({
-          'data': [
-            criteriaType.value,
-            '${data.length}',
-            criteriaTC.text,
-            'K${data.length}',
-            valueTC.text,
-            ''
-          ],
-          'isHeader': false
         });
 
         Get.back();
