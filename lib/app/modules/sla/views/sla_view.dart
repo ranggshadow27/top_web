@@ -46,8 +46,7 @@ class SlaView extends GetView<SlaController> {
                             ? AppColors.blackFont.withOpacity(.03)
                             : AppColors.primaryBackground,
                         border: Border(
-                          bottom: const BorderSide(
-                              color: AppColors.borderColor, width: 2),
+                          bottom: const BorderSide(color: AppColors.borderColor, width: 2),
                           top: BorderSide(
                               color: AppColors.borderColor,
                               width: c.data[index]['isHeader'] ? 2 : 0),
@@ -58,15 +57,18 @@ class SlaView extends GetView<SlaController> {
                           c.data[index]['data'].length,
                           (cellIndex) => TableCell(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 25,
-                                vertical: 10,
+                              padding: EdgeInsets.only(
+                                left:
+                                    cellIndex == 0 || cellIndex == controller.grandTotalData.length
+                                        ? 25
+                                        : 0,
+                                top: 10,
+                                bottom: 10,
                               ),
                               child: Text(
                                 c.data[index]['data'][cellIndex],
                                 style: controller.data[index]['isHeader']
-                                    ? CustomTextStyle.boldText
-                                        .copyWith(fontSize: 16)
+                                    ? CustomTextStyle.boldText.copyWith(fontSize: 16)
                                     : CustomTextStyle.mediumText,
                               ),
                             ),
@@ -80,8 +82,7 @@ class SlaView extends GetView<SlaController> {
                   decoration: const BoxDecoration(
                     color: AppColors.primaryBackground,
                     border: Border(
-                      bottom:
-                          BorderSide(color: AppColors.borderColor, width: 2),
+                      bottom: BorderSide(color: AppColors.borderColor, width: 2),
                     ),
                   ),
                   children: [
@@ -89,9 +90,12 @@ class SlaView extends GetView<SlaController> {
                       c.data[0]['data'].length,
                       (cellIndex) => TableCell(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 10,
+                          padding: EdgeInsets.only(
+                            left: cellIndex == 0 || cellIndex == controller.grandTotalData.length
+                                ? 25
+                                : 0,
+                            top: 10,
+                            bottom: 10,
                           ),
                           child: Text(
                             controller.grandTotalData[cellIndex],
@@ -114,10 +118,8 @@ class SlaView extends GetView<SlaController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SlaContainer(description: "Daily", value: "${c.slaDaily}"),
-                  SlaContainer(
-                      description: "Monthly", value: "${c.slaMonthly}"),
-                  SlaContainer(
-                      description: "Quarterly", value: "${c.slaQuarterly}"),
+                  SlaContainer(description: "Monthly", value: "${c.slaMonthly}"),
+                  SlaContainer(description: "Quarterly", value: "${c.slaQuarterly}"),
                 ],
               );
             }),

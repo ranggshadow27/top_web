@@ -94,11 +94,9 @@ class SlaController extends GetxController {
   ];
 
   Future<List<dynamic>> getVendorData() async {
-    QuerySnapshot query =
-        await firestore.collection('gs_data').orderBy('createdAt').get();
+    QuerySnapshot query = await firestore.collection('gs_data').orderBy('createdAt').get();
 
-    List<String> vendorData =
-        query.docs.map((e) => e['gsName'] as String).toList();
+    List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
 
     for (var i = 0; i < vendorData.length; i++) {
       data.add({
@@ -125,22 +123,18 @@ class SlaController extends GetxController {
     debugPrint("$data");
 
     try {
-      for (var vendorIndex = 1;
-          vendorIndex < vendorData.length + 1;
-          vendorIndex++) {
+      for (var vendorIndex = 1; vendorIndex < vendorData.length + 1; vendorIndex++) {
         // debugPrint("INI DATA 2 NYA : ${data[i]}");
 
         for (var valueIndex = 1; valueIndex < now; valueIndex++) {
           data[vendorIndex]['data'][valueIndex] =
-              '${randomizeDouble(valueIndex, vendorIndex)} %';
+              '${double.parse(randomizeDouble(valueIndex, vendorIndex).toString())} %';
           // debugPrint("INDEX ke $z DATANYA : ${data[i]['data'][z]}");
 
-          initialTotal +=
-              double.parse(data[vendorIndex]['data'][valueIndex].split(" ")[0]);
+          initialTotal += double.parse(data[vendorIndex]['data'][valueIndex].split(" ")[0]);
         }
 
-        data[vendorIndex]['data'][13] =
-            "${(initialTotal / (now - 1)).toStringAsFixed(1)} %";
+        data[vendorIndex]['data'][13] = "${(initialTotal / (now - 1)).toStringAsFixed(1)} %";
 
         initialTotal = 0.0;
       }
@@ -149,11 +143,9 @@ class SlaController extends GetxController {
         for (var b = 1; b < vendorData.length + 1; b++) {
           // debugPrint("INI B : ${data[b]['data'][i]}");
 
-          initialSLATotal +=
-              double.tryParse(data[b]['data'][i].split(" ")[0]) ?? 0;
+          initialSLATotal += double.tryParse(data[b]['data'][i].split(" ")[0]) ?? 0;
 
-          grandTotalData[i] =
-              "${(initialSLATotal / vendorData.length).toStringAsFixed(1)} %";
+          grandTotalData[i] = "${(initialSLATotal / vendorData.length).toStringAsFixed(1)} %";
         }
 
         initialSLATotal = 0.0;
