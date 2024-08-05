@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:teleglobal_operate/app/modules/performance/views/performance_view.dart';
 import 'package:teleglobal_operate/app/modules/provision/views/provision_content_view.dart';
 import 'package:teleglobal_operate/app/modules/home/views/home_content_view.dart';
 import 'package:teleglobal_operate/app/modules/report/views/report_view.dart';
@@ -70,7 +71,7 @@ class AppPageController extends GetxController {
       case 2:
         return const SlaView();
       case 3:
-        return Text("Menu ke $selectedPage");
+        return const PerformanceView();
       case 4:
         return const ReportView();
 

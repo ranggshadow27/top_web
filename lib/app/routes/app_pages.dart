@@ -4,6 +4,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/performance/bindings/performance_binding.dart';
+import '../modules/performance/views/performance_view.dart';
 import '../modules/provision/bindings/provision_content_binding.dart';
 import '../modules/provision/views/provision_content_view.dart';
 import '../modules/report/bindings/report_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.REPORT,
       page: () => const ReportView(),
       binding: ReportBinding(),
+    ),
+    GetPage(
+      name: _Paths.PERFORMANCE,
+      page: () => const PerformanceView(),
+      binding: PerformanceBinding(),
     ),
   ];
 }

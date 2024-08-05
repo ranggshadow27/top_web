@@ -8,6 +8,7 @@ abstract class Routes {
   static const PROVISION_CONTENT = _Paths.PROVISION_CONTENT;
   static const SLA = _Paths.SLA;
   static const REPORT = _Paths.REPORT;
+  static const PERFORMANCE = _Paths.PERFORMANCE;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const PROVISION_CONTENT = '/provision-content';
   static const SLA = '/sla';
   static const REPORT = '/report';
+  static const PERFORMANCE = '/performance';
 }

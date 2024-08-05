@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:teleglobal_operate/app/utils/themes/colors.dart';
-import 'package:teleglobal_operate/app/utils/themes/text_styles.dart';
-import 'package:teleglobal_operate/app/widgets/dialogs/create_report_criteria.dart';
-import 'package:teleglobal_operate/app/widgets/dialogs/edit_report_criteria.dart';
 
+import '../../../utils/themes/colors.dart';
+import '../../../utils/themes/text_styles.dart';
 import '../../../widgets/custom_button.dart';
-import '../controllers/report_controller.dart';
+import '../controllers/performance_controller.dart';
 
-class ReportView extends GetView<ReportController> {
-  const ReportView({super.key});
+class PerformanceView extends GetView<PerformanceController> {
+  const PerformanceView({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut<ReportController>(
-      () => ReportController(),
+    Get.lazyPut<PerformanceController>(
+      () => PerformanceController(),
     );
 
-    return GetBuilder<ReportController>(
+    return GetBuilder<PerformanceController>(
       builder: (c) => ListView(
         children: [
           const SizedBox(height: 25),
@@ -26,7 +24,7 @@ class ReportView extends GetView<ReportController> {
             child: Row(
               children: [
                 Text(
-                  "Report Summary",
+                  "Vendor Performance",
                   style: CustomTextStyle.boldText.copyWith(
                     fontSize: 20,
                   ),
@@ -34,21 +32,9 @@ class ReportView extends GetView<ReportController> {
                 const Spacer(),
                 RButton(
                   color: AppColors.orangeAccent,
-                  title: "Create New Criteria",
+                  title: "Add",
                   titleColor: AppColors.primaryBackground,
-                  onTap: () async {
-                    c.valueTC.clear();
-                    c.criteriaTC.clear();
-
-                    await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CreateReportCriteriaDialog(
-                          controller: controller,
-                        );
-                      },
-                    );
-                  },
+                  onTap: () async {},
                 ),
               ],
             ),
@@ -108,30 +94,7 @@ class ReportView extends GetView<ReportController> {
                                       color: AppColors.orangeAccent,
                                       title: "Edit",
                                       titleColor: AppColors.primaryBackground,
-                                      onTap: () async {
-                                        c.valueTC.clear();
-                                        c.criteriaTC.clear();
-
-                                        c.criteriaTC.text =
-                                            dataFC[index]['data'][2];
-                                        c.valueTC.text =
-                                            '${dataFC[index]['data'][cellIndex - 1]}';
-                                        c.criteriaType.value =
-                                            '${dataFC[index]['data'][0]}';
-
-                                        await showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return EditCriteriaDialog(
-                                              controller: controller,
-                                              onTap: () async {
-                                                await c.updateReportCriteria(
-                                                    'K$index');
-                                              },
-                                            );
-                                          },
-                                        );
-                                      },
+                                      onTap: () async {},
                                     ),
                                   ),
                           ),
