@@ -79,7 +79,7 @@ class PerformanceView extends GetView<PerformanceController> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: 25,
-                              vertical: dataFC[index]['isHeader'] ? 12 : 6,
+                              vertical: dataFC[index]['isHeader'] ? 12 : 10,
                             ),
                             child: dataFC[index]['data'][cellIndex] != ''
                                 ? Text(

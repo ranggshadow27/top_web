@@ -50,6 +50,8 @@ class PerformanceController extends GetxController {
 
     List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
 
+    List<String> vendorPerformance = query.docs.map((e) => e['performance'].toString()).toList();
+
     try {
       for (var i = data.length - 1; i < vendorData.length; i++) {
         data.add({
@@ -63,8 +65,13 @@ class PerformanceController extends GetxController {
         for (var b = 2; b < data[0]['data'].length; b++) {
           data[i + 1]['data'].add('-');
         }
+      }
 
-        debugPrint("NIH DATA : ${data[i]['data']}");
+      int headerLength = data[0]['data'].length - 1;
+
+      for (var i = 0; i < vendorPerformance.length; i++) {
+        data[i + 1]['data'][headerLength] =
+            '${double.tryParse(vendorPerformance[i])!.toStringAsFixed(1)} %';
       }
     } catch (e) {
       debugPrint("INI ERORNYA:\n$e");
@@ -76,6 +83,38 @@ class PerformanceController extends GetxController {
 
     return vendorData;
   }
+
+  // Future<List<String>> getPerformanceData() async {
+  //   QuerySnapshot query = await firestore.collection('gs_data').orderBy('createdAt').get();
+
+  //   List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
+
+  //   try {
+  //     for (var i = data.length - 1; i < vendorData.length; i++) {
+  //       data.add({
+  //         'data': [
+  //           '${i + 1}',
+  //           vendorData[i],
+  //         ],
+  //         'isHeader': false,
+  //       });
+
+  //       for (var b = 2; b < data[0]['data'].length; b++) {
+  //         data[i + 1]['data'].add('-');
+  //       }
+
+  //       debugPrint("NIH DATA : ${data[i]['data']}");
+  //     }
+  //   } catch (e) {
+  //     debugPrint("INI ERORNYA:\n$e");
+  //   }
+
+  //   debugPrint("INI DATANYA:\n$data");
+
+  //   update();
+
+  //   return vendorData;
+  // }
 
   addVendorPeformance() async {
     Map<String, dynamic> vpData = {};

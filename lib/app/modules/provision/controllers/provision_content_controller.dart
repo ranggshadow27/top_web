@@ -51,6 +51,7 @@ class ProvisionContentController extends GetxController {
           'createdAt': DateTime.now().toIso8601String(),
           'status': 'Active',
           'totalRemote': 0,
+          'performance': 0,
         });
       } else {
         debugPrint("Mohon isi Semua Field Terlebih dahulu!");
