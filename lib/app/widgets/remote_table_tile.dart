@@ -44,7 +44,7 @@ class RemoteTableTile extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 50,
+            width: 100,
             child: Text(
               gs,
               style: CustomTextStyle.mediumText.copyWith(),

@@ -45,9 +45,7 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                   color: controller.indexActive.value == 0
                       ? AppColors.orangeAccent
                       : AppColors.pureWhite,
-                  titleColor: controller.indexActive.value == 0
-                      ? AppColors.pureWhite
-                      : null,
+                  titleColor: controller.indexActive.value == 0 ? AppColors.pureWhite : null,
                   title: "Remote",
                   onTap: () => controller.switchToRemoteData(),
                 ),
@@ -56,9 +54,7 @@ class ProvisionContentView extends GetView<ProvisionContentController> {
                   color: controller.indexActive.value == 1
                       ? AppColors.orangeAccent
                       : AppColors.pureWhite,
-                  titleColor: controller.indexActive.value == 1
-                      ? AppColors.pureWhite
-                      : null,
+                  titleColor: controller.indexActive.value == 1 ? AppColors.pureWhite : null,
                   title: "Vendor GS",
                   onTap: () => controller.switchToGSData(),
                 ),

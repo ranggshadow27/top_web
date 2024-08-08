@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:teleglobal_operate/app/widgets/dialogs/performance_dialog.dart';
 
 import '../../../utils/themes/colors.dart';
 import '../../../utils/themes/text_styles.dart';
@@ -34,7 +35,12 @@ class PerformanceView extends GetView<PerformanceController> {
                   color: AppColors.orangeAccent,
                   title: "Add",
                   titleColor: AppColors.primaryBackground,
-                  onTap: () async {},
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) => PerformanceDialog(controller: controller),
+                    );
+                  },
                 ),
               ],
             ),
@@ -44,8 +50,7 @@ class PerformanceView extends GetView<PerformanceController> {
             // border: TableBorder.all(color: Colors.black),
 
             columnWidths: const {
-              0: FlexColumnWidth(1),
-              2: FlexColumnWidth(5),
+              1: FlexColumnWidth(2),
             },
             children: [
               ...List.generate(
@@ -59,8 +64,7 @@ class PerformanceView extends GetView<PerformanceController> {
                           ? AppColors.blackFont.withOpacity(.03)
                           : AppColors.primaryBackground,
                       border: Border(
-                        bottom: const BorderSide(
-                            color: AppColors.borderColor, width: 2),
+                        bottom: const BorderSide(color: AppColors.borderColor, width: 2),
                         top: BorderSide(
                           color: AppColors.borderColor,
                           width: dataFC[index]['isHeader'] ? 2 : 0,
@@ -80,12 +84,9 @@ class PerformanceView extends GetView<PerformanceController> {
                             child: dataFC[index]['data'][cellIndex] != ''
                                 ? Text(
                                     dataFC[index]['data'][cellIndex],
-                                    textAlign: cellIndex != 2 && cellIndex != 0
-                                        ? TextAlign.center
-                                        : TextAlign.left,
+                                    textAlign: cellIndex != 1 ? TextAlign.center : TextAlign.left,
                                     style: dataFC[index]['isHeader']
-                                        ? CustomTextStyle.boldText
-                                            .copyWith(fontSize: 16)
+                                        ? CustomTextStyle.boldText.copyWith(fontSize: 16)
                                         : CustomTextStyle.mediumText,
                                   )
                                 : Center(

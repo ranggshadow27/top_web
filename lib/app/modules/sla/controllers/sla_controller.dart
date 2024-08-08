@@ -17,15 +17,11 @@ class SlaController extends GetxController {
     data = await getSlaData();
     grandTotalData = await getTotalSlaData();
 
-    if (data.length == 1) {
-      debugPrint("Jalanin GetVendorData");
-
-      await getVendorData();
-    }
+    await getVendorData();
 
     slaDaily = randomizeDouble(0, 0);
-    slaQuarterly = getSlaQuarterly();
-    slaMonthly = getSlaMonthly();
+    // slaQuarterly = getSlaQuarterly();
+    // slaMonthly = getSlaMonthly();
 
     update();
 
@@ -98,63 +94,75 @@ class SlaController extends GetxController {
 
     List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
 
-    for (var i = 0; i < vendorData.length; i++) {
-      data.add({
-        'data': [
-          vendorData[i],
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-          '-',
-        ],
-        'isHeader': false,
-      });
-    }
+    if (vendorData.length != data.length - 1) {
+      debugPrint("INI TRUEE! ${vendorData.length} vs ${data.length - 1}");
 
-    debugPrint("$data");
-
-    try {
-      for (var vendorIndex = 1; vendorIndex < vendorData.length + 1; vendorIndex++) {
-        // debugPrint("INI DATA 2 NYA : ${data[i]}");
-
-        for (var valueIndex = 1; valueIndex < now; valueIndex++) {
-          data[vendorIndex]['data'][valueIndex] =
-              '${double.parse(randomizeDouble(valueIndex, vendorIndex).toString())} %';
-          // debugPrint("INDEX ke $z DATANYA : ${data[i]['data'][z]}");
-
-          initialTotal += double.parse(data[vendorIndex]['data'][valueIndex].split(" ")[0]);
-        }
-
-        data[vendorIndex]['data'][13] = "${(initialTotal / (now - 1)).toStringAsFixed(1)} %";
-
-        initialTotal = 0.0;
+      for (var i = data.length - 1; i < vendorData.length; i++) {
+        data.add({
+          'data': [
+            vendorData[i],
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+            '-',
+          ],
+          'isHeader': false,
+        });
       }
 
-      for (var i = 1; i < grandTotalData.length; i++) {
-        for (var b = 1; b < vendorData.length + 1; b++) {
-          // debugPrint("INI B : ${data[b]['data'][i]}");
+      try {
+        for (var vendorIndex = 1; vendorIndex < vendorData.length + 1; vendorIndex++) {
+          // debugPrint("INI DATA 2 NYA : ${data[i]}");
+          if (data[vendorIndex]['data'][13] == "-") {
+            for (var valueIndex = 1; valueIndex < now; valueIndex++) {
+              data[vendorIndex]['data'][valueIndex] =
+                  '${double.parse(randomizeDouble(valueIndex, vendorIndex).toString())} %';
+              // debugPrint(
+              //     "vendorIndex ke $vendorIndex valueIndex ke $valueIndex \nDATANYA : ${data[vendorIndex]['data'][valueIndex]}");
 
-          initialSLATotal += double.tryParse(data[b]['data'][i].split(" ")[0]) ?? 0;
+              initialTotal += double.parse(data[vendorIndex]['data'][valueIndex].split(" ")[0]);
+            }
 
-          grandTotalData[i] = "${(initialSLATotal / vendorData.length).toStringAsFixed(1)} %";
+            data[vendorIndex]['data'][13] = "${(initialTotal / (now - 1)).toStringAsFixed(1)} %";
+
+            initialTotal = 0.0;
+          }
+
+          // debugPrint(
+          //     "INI DATA TOTAL TAHUNAN\n $initialTotal / ${(now - 1)} = ${data[vendorIndex]['data'][13]}");
         }
 
-        initialSLATotal = 0.0;
-      }
+        for (var i = 1; i < grandTotalData.length; i++) {
+          for (var b = 1; b < vendorData.length + 1; b++) {
+            initialSLATotal += double.tryParse(data[b]['data'][i].split(" ")[0]) ?? 0;
 
-      await saveSlaData();
-    } catch (e) {
-      debugPrint("EROR CUY $e");
+            grandTotalData[i] = "${(initialSLATotal / vendorData.length).toStringAsFixed(1)} %";
+
+            // debugPrint(
+            //     "GRAND TOTAL:\n $initialSLATotal + ${data[b]['data'][i].split(" ")[0]}/ ${vendorData.length} = ${grandTotalData[i]}");
+
+            // debugPrint("INI B : ${data[b]['data'][i]}");
+          }
+
+          initialSLATotal = 0.0;
+        }
+
+        await saveSlaData();
+      } catch (e) {
+        debugPrint("EROR $e");
+      }
     }
+
+    debugPrint("INI DATANYA:\n$data");
 
     return data;
   }
