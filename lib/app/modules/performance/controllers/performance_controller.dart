@@ -10,6 +10,8 @@ class PerformanceController extends GetxController {
     await getCriteriaData();
 
     await getVendorData();
+
+    await getPerformanceData();
   }
 
   List<dynamic> data = [
@@ -25,9 +27,11 @@ class PerformanceController extends GetxController {
   RxString selectedGS = "".obs;
 
   Future<List<String>> getCriteriaData() async {
-    QuerySnapshot query = await firestore.collection('report_criteria').orderBy('id').get();
+    QuerySnapshot query =
+        await firestore.collection('report_criteria').orderBy('id').get();
 
-    List<String> criteriaIdList = query.docs.map((e) => e['id'] as String).toList();
+    List<String> criteriaIdList =
+        query.docs.map((e) => e['id'] as String).toList();
     dynamicTC.clear();
 
     for (var _ in criteriaIdList) {
@@ -46,11 +50,16 @@ class PerformanceController extends GetxController {
   }
 
   Future<List<String>> getVendorData() async {
-    QuerySnapshot query = await firestore.collection('gs_data').orderBy('createdAt').get();
+    QuerySnapshot query = await firestore
+        .collection('gs_data')
+        .orderBy('performance', descending: true)
+        .get();
 
-    List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
+    List<String> vendorData =
+        query.docs.map((e) => e['gsName'] as String).toList();
 
-    List<String> vendorPerformance = query.docs.map((e) => e['performance'].toString()).toList();
+    List<String> vendorPerformance =
+        query.docs.map((e) => e['performance'].toString()).toList();
 
     try {
       for (var i = data.length - 1; i < vendorData.length; i++) {
@@ -84,37 +93,45 @@ class PerformanceController extends GetxController {
     return vendorData;
   }
 
-  // Future<List<String>> getPerformanceData() async {
-  //   QuerySnapshot query = await firestore.collection('gs_data').orderBy('createdAt').get();
+  updatePage() {
+    update();
+  }
 
-  //   List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
+  Future<List<Map<String, dynamic>>> getPerformanceData() async {
+    QuerySnapshot query = await firestore
+        .collection('vendor_performance')
+        .orderBy('performance', descending: true)
+        .get();
 
-  //   try {
-  //     for (var i = data.length - 1; i < vendorData.length; i++) {
-  //       data.add({
-  //         'data': [
-  //           '${i + 1}',
-  //           vendorData[i],
-  //         ],
-  //         'isHeader': false,
-  //       });
+    List<Map<String, dynamic>> vendorPerf =
+        query.docs.map((e) => e.data() as Map<String, dynamic>).toList();
 
-  //       for (var b = 2; b < data[0]['data'].length; b++) {
-  //         data[i + 1]['data'].add('-');
-  //       }
+    try {
+      for (var i = 1; i < data.length + 1; i++) {
+        debugPrint("COBA COBA $i/${data.length + 1}");
+        for (var b = 2; b < data[0]['data'].length - 1; b++) {
+          debugPrint("COBA $b/${data[0]['data'].length - 1}");
 
-  //       debugPrint("NIH DATA : ${data[i]['data']}");
-  //     }
-  //   } catch (e) {
-  //     debugPrint("INI ERORNYA:\n$e");
-  //   }
+          if (vendorPerf[i - 1].isNotEmpty) {
+            if (vendorPerf[i - 1]['K${b - 1}'] != null) {
+              data[i]['data'][b] = vendorPerf[i - 1]['K${b - 1}'].toString();
+            } else {
+              data[i]['data'][b] = "-";
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("INI ERORNYA:\n$e");
+    }
 
-  //   debugPrint("INI DATANYA:\n$data");
+    debugPrint("INI vendorPerf :\n$vendorPerf");
+    debugPrint("INI Data Lengkapnya :\n$data");
 
-  //   update();
+    update();
 
-  //   return vendorData;
-  // }
+    return vendorPerf;
+  }
 
   addVendorPeformance() async {
     Map<String, dynamic> vpData = {};
@@ -131,7 +148,14 @@ class PerformanceController extends GetxController {
 
     performanceTotal /= dynamicTC.length;
 
-    await firestore.collection('vendor_performance').doc(selectedGS.value).set(vpData);
+    vpData['performance'] = double.tryParse(
+      (performanceTotal * 100).toStringAsFixed(1),
+    );
+
+    await firestore
+        .collection('vendor_performance')
+        .doc(selectedGS.value)
+        .set(vpData);
 
     await firestore.collection('gs_data').doc(selectedGS.value).update({
       'performance': double.tryParse(
@@ -140,6 +164,12 @@ class PerformanceController extends GetxController {
     });
 
     debugPrint("Berhasil");
+
+    data.removeRange(1, data.length);
+
+    await getVendorData();
+
+    await getPerformanceData();
 
     Get.back();
 

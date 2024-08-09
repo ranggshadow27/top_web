@@ -38,7 +38,8 @@ class PerformanceView extends GetView<PerformanceController> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => PerformanceDialog(controller: controller),
+                      builder: (context) =>
+                          PerformanceDialog(controller: controller),
                     );
                   },
                 ),
@@ -64,7 +65,8 @@ class PerformanceView extends GetView<PerformanceController> {
                           ? AppColors.blackFont.withOpacity(.03)
                           : AppColors.primaryBackground,
                       border: Border(
-                        bottom: const BorderSide(color: AppColors.borderColor, width: 2),
+                        bottom: const BorderSide(
+                            color: AppColors.borderColor, width: 2),
                         top: BorderSide(
                           color: AppColors.borderColor,
                           width: dataFC[index]['isHeader'] ? 2 : 0,
@@ -84,9 +86,12 @@ class PerformanceView extends GetView<PerformanceController> {
                             child: dataFC[index]['data'][cellIndex] != ''
                                 ? Text(
                                     dataFC[index]['data'][cellIndex],
-                                    textAlign: cellIndex != 1 ? TextAlign.center : TextAlign.left,
+                                    textAlign: cellIndex != 1
+                                        ? TextAlign.center
+                                        : TextAlign.left,
                                     style: dataFC[index]['isHeader']
-                                        ? CustomTextStyle.boldText.copyWith(fontSize: 16)
+                                        ? CustomTextStyle.boldText
+                                            .copyWith(fontSize: 16)
                                         : CustomTextStyle.mediumText,
                                   )
                                 : Center(

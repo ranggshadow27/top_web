@@ -20,8 +20,8 @@ class SlaController extends GetxController {
     await getVendorData();
 
     slaDaily = randomizeDouble(0, 0);
-    // slaQuarterly = getSlaQuarterly();
-    // slaMonthly = getSlaMonthly();
+    slaQuarterly = getSlaQuarterly();
+    slaMonthly = getSlaMonthly();
 
     update();
 
@@ -90,9 +90,11 @@ class SlaController extends GetxController {
   ];
 
   Future<List<dynamic>> getVendorData() async {
-    QuerySnapshot query = await firestore.collection('gs_data').orderBy('createdAt').get();
+    QuerySnapshot query =
+        await firestore.collection('gs_data').orderBy('createdAt').get();
 
-    List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
+    List<String> vendorData =
+        query.docs.map((e) => e['gsName'] as String).toList();
 
     if (vendorData.length != data.length - 1) {
       debugPrint("INI TRUEE! ${vendorData.length} vs ${data.length - 1}");
@@ -120,7 +122,9 @@ class SlaController extends GetxController {
       }
 
       try {
-        for (var vendorIndex = 1; vendorIndex < vendorData.length + 1; vendorIndex++) {
+        for (var vendorIndex = 1;
+            vendorIndex < vendorData.length + 1;
+            vendorIndex++) {
           // debugPrint("INI DATA 2 NYA : ${data[i]}");
           if (data[vendorIndex]['data'][13] == "-") {
             for (var valueIndex = 1; valueIndex < now; valueIndex++) {
@@ -129,10 +133,12 @@ class SlaController extends GetxController {
               // debugPrint(
               //     "vendorIndex ke $vendorIndex valueIndex ke $valueIndex \nDATANYA : ${data[vendorIndex]['data'][valueIndex]}");
 
-              initialTotal += double.parse(data[vendorIndex]['data'][valueIndex].split(" ")[0]);
+              initialTotal += double.parse(
+                  data[vendorIndex]['data'][valueIndex].split(" ")[0]);
             }
 
-            data[vendorIndex]['data'][13] = "${(initialTotal / (now - 1)).toStringAsFixed(1)} %";
+            data[vendorIndex]['data'][13] =
+                "${(initialTotal / (now - 1)).toStringAsFixed(1)} %";
 
             initialTotal = 0.0;
           }
@@ -143,9 +149,11 @@ class SlaController extends GetxController {
 
         for (var i = 1; i < grandTotalData.length; i++) {
           for (var b = 1; b < vendorData.length + 1; b++) {
-            initialSLATotal += double.tryParse(data[b]['data'][i].split(" ")[0]) ?? 0;
+            initialSLATotal +=
+                double.tryParse(data[b]['data'][i].split(" ")[0]) ?? 0;
 
-            grandTotalData[i] = "${(initialSLATotal / vendorData.length).toStringAsFixed(1)} %";
+            grandTotalData[i] =
+                "${(initialSLATotal / vendorData.length).toStringAsFixed(1)} %";
 
             // debugPrint(
             //     "GRAND TOTAL:\n $initialSLATotal + ${data[b]['data'][i].split(" ")[0]}/ ${vendorData.length} = ${grandTotalData[i]}");
