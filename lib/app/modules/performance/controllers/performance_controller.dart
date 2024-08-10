@@ -11,7 +11,7 @@ class PerformanceController extends GetxController {
 
     await getVendorData();
 
-    await getPerformanceData();
+    await ();
   }
 
   List<dynamic> data = [

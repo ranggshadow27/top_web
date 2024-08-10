@@ -29,101 +29,103 @@ class SlaView extends GetView<SlaController> {
           ),
         ),
         const SizedBox(height: 25),
-        Expanded(
-          child: GetBuilder<SlaController>(
-            builder: (c) => Table(
-              // border: TableBorder.all(color: Colors.black),
-              columnWidths: const {
-                0: FlexColumnWidth(3),
-              },
-              children: [
-                ...List.generate(
-                  c.data.length,
-                  (index) {
-                    return TableRow(
-                      decoration: BoxDecoration(
-                        color: c.data[index]['isHeader']
-                            ? AppColors.blackFont.withOpacity(.03)
-                            : AppColors.primaryBackground,
-                        border: Border(
-                          bottom: const BorderSide(color: AppColors.borderColor, width: 2),
-                          top: BorderSide(
-                              color: AppColors.borderColor,
-                              width: c.data[index]['isHeader'] ? 2 : 0),
-                        ),
+        GetBuilder<SlaController>(
+          builder: (c) => Table(
+            // border: TableBorder.all(color: Colors.black),
+            columnWidths: const {
+              0: FlexColumnWidth(3),
+            },
+            children: [
+              ...List.generate(
+                c.data.length,
+                (index) {
+                  return TableRow(
+                    decoration: BoxDecoration(
+                      color: c.data[index]['isHeader']
+                          ? AppColors.blackFont.withOpacity(.03)
+                          : AppColors.primaryBackground,
+                      border: Border(
+                        bottom: const BorderSide(
+                            color: AppColors.borderColor, width: 2),
+                        top: BorderSide(
+                            color: AppColors.borderColor,
+                            width: c.data[index]['isHeader'] ? 2 : 0),
                       ),
-                      children: [
-                        ...List.generate(
-                          c.data[index]['data'].length,
-                          (cellIndex) => TableCell(
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left:
-                                    cellIndex == 0 || cellIndex == controller.grandTotalData.length
-                                        ? 25
-                                        : 0,
-                                top: 10,
-                                bottom: 10,
-                              ),
-                              child: Text(
-                                c.data[index]['data'][cellIndex],
-                                style: controller.data[index]['isHeader']
-                                    ? CustomTextStyle.boldText.copyWith(fontSize: 16)
-                                    : CustomTextStyle.mediumText,
-                              ),
+                    ),
+                    children: [
+                      ...List.generate(
+                        c.data[index]['data'].length,
+                        (cellIndex) => TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: cellIndex == 0 ||
+                                      cellIndex ==
+                                          controller.grandTotalData.length
+                                  ? 25
+                                  : 0,
+                              top: 10,
+                              bottom: 10,
+                            ),
+                            child: Text(
+                              c.data[index]['data'][cellIndex],
+                              style: controller.data[index]['isHeader']
+                                  ? CustomTextStyle.boldText
+                                      .copyWith(fontSize: 16)
+                                  : CustomTextStyle.mediumText,
                             ),
                           ),
                         ),
-                      ],
-                    );
-                  },
-                ),
-                TableRow(
-                  decoration: const BoxDecoration(
-                    color: AppColors.primaryBackground,
-                    border: Border(
-                      bottom: BorderSide(color: AppColors.borderColor, width: 2),
-                    ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              TableRow(
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryBackground,
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.borderColor, width: 2),
                   ),
-                  children: [
-                    ...List.generate(
-                      c.data[0]['data'].length,
-                      (cellIndex) => TableCell(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: cellIndex == 0 || cellIndex == controller.grandTotalData.length
-                                ? 25
-                                : 0,
-                            top: 10,
-                            bottom: 10,
-                          ),
-                          child: Text(
-                            controller.grandTotalData[cellIndex],
-                            style: CustomTextStyle.mediumText,
-                          ),
+                ),
+                children: [
+                  ...List.generate(
+                    c.data[0]['data'].length,
+                    (cellIndex) => TableCell(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: cellIndex == 0 ||
+                                  cellIndex == controller.grandTotalData.length
+                              ? 25
+                              : 0,
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Text(
+                          controller.grandTotalData[cellIndex],
+                          style: CustomTextStyle.mediumText,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(25),
-            child: GetBuilder<SlaController>(builder: (c) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SlaContainer(description: "Daily", value: "${c.slaDaily}"),
-                  SlaContainer(description: "Monthly", value: "${c.slaMonthly}"),
-                  SlaContainer(description: "Quarterly", value: "${c.slaQuarterly}"),
-                ],
-              );
-            }),
-          ),
+        Padding(
+          padding: const EdgeInsets.all(25),
+          child: GetBuilder<SlaController>(builder: (c) {
+            return Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              runSpacing: 20,
+              children: [
+                SlaContainer(description: "Daily", value: "${c.slaDaily}"),
+                SlaContainer(description: "Monthly", value: "${c.slaMonthly}"),
+                SlaContainer(
+                    description: "Quarterly", value: "${c.slaQuarterly}"),
+              ],
+            );
+          }),
         ),
       ],
     );

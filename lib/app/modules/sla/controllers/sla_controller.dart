@@ -15,6 +15,7 @@ class SlaController extends GetxController {
     super.onInit();
 
     data = await getSlaData();
+
     grandTotalData = await getTotalSlaData();
 
     await getVendorData();
