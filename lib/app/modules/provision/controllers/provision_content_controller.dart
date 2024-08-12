@@ -79,11 +79,14 @@ class ProvisionContentController extends GetxController {
 
         String formatedRemoteName = newRemoteTC.text.toUpperCase();
 
+        String formatLat = latTC.text.replaceAll(",", ".");
+        String formatLong = longTC.text.replaceAll(",", ".");
+
         await firestore.collection('remote_data').doc(newRemoteTC.text).set({
           'remoteName': formatedRemoteName,
           'gsVendor': selectedGS.value,
-          'lat': latTC.text,
-          'long': longTC.text,
+          'lat': formatLat,
+          'long': formatLong,
           'createdAt': DateTime.now().toIso8601String(),
           'status': 'Active',
         });

@@ -41,7 +41,8 @@ class ReportController extends GetxController {
           'name': criteriaTC.text,
           'value': double.tryParse(valueTC.text),
           'type': criteriaType.value,
-          'id': criteriaId
+          'id': data.length,
+          'criteriaId': criteriaId
         });
 
         if (data.length > 1 && data[0]['isHeader'] == true) {

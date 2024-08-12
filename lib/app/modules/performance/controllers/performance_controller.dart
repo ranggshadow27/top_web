@@ -11,7 +11,7 @@ class PerformanceController extends GetxController {
 
     await getVendorData();
 
-    await ();
+    await getPerformanceData();
   }
 
   List<dynamic> data = [
@@ -27,11 +27,9 @@ class PerformanceController extends GetxController {
   RxString selectedGS = "".obs;
 
   Future<List<String>> getCriteriaData() async {
-    QuerySnapshot query =
-        await firestore.collection('report_criteria').orderBy('id').get();
+    QuerySnapshot query = await firestore.collection('report_criteria').orderBy('id').get();
 
-    List<String> criteriaIdList =
-        query.docs.map((e) => e['id'] as String).toList();
+    List<String> criteriaIdList = query.docs.map((e) => e['criteriaId'] as String).toList();
     dynamicTC.clear();
 
     for (var _ in criteriaIdList) {
@@ -50,16 +48,12 @@ class PerformanceController extends GetxController {
   }
 
   Future<List<String>> getVendorData() async {
-    QuerySnapshot query = await firestore
-        .collection('gs_data')
-        .orderBy('performance', descending: true)
-        .get();
+    QuerySnapshot query =
+        await firestore.collection('gs_data').orderBy('performance', descending: true).get();
 
-    List<String> vendorData =
-        query.docs.map((e) => e['gsName'] as String).toList();
+    List<String> vendorData = query.docs.map((e) => e['gsName'] as String).toList();
 
-    List<String> vendorPerformance =
-        query.docs.map((e) => e['performance'].toString()).toList();
+    List<String> vendorPerformance = query.docs.map((e) => e['performance'].toString()).toList();
 
     try {
       for (var i = data.length - 1; i < vendorData.length; i++) {
@@ -91,10 +85,6 @@ class PerformanceController extends GetxController {
     update();
 
     return vendorData;
-  }
-
-  updatePage() {
-    update();
   }
 
   Future<List<Map<String, dynamic>>> getPerformanceData() async {
@@ -152,10 +142,7 @@ class PerformanceController extends GetxController {
       (performanceTotal * 100).toStringAsFixed(1),
     );
 
-    await firestore
-        .collection('vendor_performance')
-        .doc(selectedGS.value)
-        .set(vpData);
+    await firestore.collection('vendor_performance').doc(selectedGS.value).set(vpData);
 
     await firestore.collection('gs_data').doc(selectedGS.value).update({
       'performance': double.tryParse(
